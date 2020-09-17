@@ -1,5 +1,5 @@
 # Reenumerate-USB
-Alfred workflow to replag a usb device from software
+Alfred workflow to replag a usb device from software in Mac Os
 
 
 Sometimes you need to unplag a usb device and plug it again.
