@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>category</key>
+	<string>My</string>
+	<key>connections</key>
+	<dict>
+		<key>2B52E26F-C915-4831-A2E2-6F319830D708</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C5305812-9500-4CA7-BDE7-09BD264B088D</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>9A4ED2F0-90B4-47BC-9E51-3705A5CC4BBF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2B52E26F-C915-4831-A2E2-6F319830D708</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>C5305812-9500-4CA7-BDE7-09BD264B088D</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0F62C962-F9A7-419D-B6D8-2F8198C46841</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string></string>
+	<key>description</key>
+	<string>easily reenumerate usb device</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Reenumerate USB</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>USB Reenumerated</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>0F62C962-F9A7-419D-B6D8-2F8198C46841</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttrimmode</key>
+				<integer>1</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>function run(argv) {
+let c = Application.currentApplication();
+	c.includeStandardAdditions=true;
+	c = c.doShellScript;
+	
+	let devices = c("ioreg -p IOUSB -w0") 	    
+	devices = devices.split("\r");
+	devices.shift()
+	devices.shift()
+
+	let items = [];
+
+	for(let device of devices) {
+		device = device.split('+-o ')[1].split('  &lt;')[0].split('@');
+		let title = device[0];
+		let arg = "0x"+device[1]
+		items.push({title, "subtitle": arg, arg})
+	}
+  return JSON.stringify({items});
+}</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>7</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>2B52E26F-C915-4831-A2E2-6F319830D708</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>usb</string>
+				<key>subtext</key>
+				<string></string>
+				<key>text</key>
+				<string>Reenumerate USB</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>9A4ED2F0-90B4-47BC-9E51-3705A5CC4BBF</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./reenumerate -v -l $1</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C5305812-9500-4CA7-BDE7-09BD264B088D</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>Sometimes you need to unplag a usb device and plug it again.
+This workflow does it via reenumerate binary copied from USB Prober.app 
+
+Main reason why I need it is my shuttle express http://forums.contourdesign.com/viewtopic.php?f=4&amp;t=8479&amp;p=15032&amp;hilit=mac+os#p15032
+also had the same isue with 3d conexion mouse
+
+if you want to run it on system startup you can use this shell script:
+./reenumerate -v -l "0x$(ioreg -p IOUSB -w0 | sed -n 's/.*ShuttleXpress@\([^ ]*\).*/\1/p')"
+
+USB Prober.app can be downloaded from https://developer.apple.com/download/more/</string>
+	<key>uidata</key>
+	<dict>
+		<key>0F62C962-F9A7-419D-B6D8-2F8198C46841</key>
+		<dict>
+			<key>xpos</key>
+			<integer>950</integer>
+			<key>ypos</key>
+			<integer>550</integer>
+		</dict>
+		<key>2B52E26F-C915-4831-A2E2-6F319830D708</key>
+		<dict>
+			<key>xpos</key>
+			<integer>530</integer>
+			<key>ypos</key>
+			<integer>550</integer>
+		</dict>
+		<key>9A4ED2F0-90B4-47BC-9E51-3705A5CC4BBF</key>
+		<dict>
+			<key>xpos</key>
+			<integer>310</integer>
+			<key>ypos</key>
+			<integer>550</integer>
+		</dict>
+		<key>C5305812-9500-4CA7-BDE7-09BD264B088D</key>
+		<dict>
+			<key>xpos</key>
+			<integer>730</integer>
+			<key>ypos</key>
+			<integer>550</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.0.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
