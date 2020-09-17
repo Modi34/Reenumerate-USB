@@ -2,7 +2,7 @@
 Alfred workflow to replag a usb device from software in Mac Os
 
 
-Sometimes you need to unplag a usb device and plug it again.
+Sometimes I need to unplag a usb device and plug it again.
 This workflow does it via reenumerate binary copied from USB Prober.app 
 
 Main reason why I need it is [my shuttle express](http://forums.contourdesign.com/viewtopic.php?f=4&t=8479&p=15032&hilit=mac+os#p15032)
